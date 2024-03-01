@@ -15,11 +15,11 @@ public class JavaFileMerger {
     static String folderPath;
     static List<String> imports = new ArrayList<>();
     static ArrayList<File> javaFiles = new ArrayList<>();
+    static String newClassName = "";
 
 
     public static void findJavaFiles(String path) {
          folderPath = path;
-        // Call the method to open .java files
         openJavaFiles(new File(folderPath));
     }
 
@@ -35,14 +35,9 @@ public class JavaFileMerger {
                     } else if (file.isFile() && file.getName().endsWith(".java")) {
                         System.out.println("Opening: " + file.getAbsolutePath());
                         javaFiles.add(file);
-                        findImports(file.getPath());
                     }
                 }
             }
-
-
-
-            System.out.println("Your java files added to \"temp.java\" file in this folder");
 
         } else {
             System.out.println("Invalid folder path. Please provide a valid folder path.");
@@ -52,7 +47,7 @@ public class JavaFileMerger {
 
     private static void writeImports() {
         for (String imp : imports) {
-            try (FileOutputStream fileOutputStream = new FileOutputStream(folderPath+"//temp.java", true);
+            try (FileOutputStream fileOutputStream = new FileOutputStream(folderPath+"//"+newClassName+".java", true);
                  OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
                  BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
 
@@ -72,7 +67,7 @@ public class JavaFileMerger {
             try (FileInputStream fileInputStream = new FileInputStream(file.getPath());
                  InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                  BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                 FileOutputStream fileOutputStream = new FileOutputStream(folderPath+"//temp.java", true);
+                 FileOutputStream fileOutputStream = new FileOutputStream(folderPath+"//"+newClassName+".java", true);
                  OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
                  BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
 
@@ -129,6 +124,21 @@ public class JavaFileMerger {
             System.out.println(e.getMessage());
             System.exit(1);
         }
+    }
+    public static String  mergeIt(String newFileName){
+        newClassName = newFileName;
+        for(File f:javaFiles){
+            findImports(f.getPath());
+        }
+        writeImports();
+        writeJavaFiles();
+
+
+
+
+
+
+        return "";
     }
 
 
