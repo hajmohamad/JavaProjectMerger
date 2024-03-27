@@ -32,7 +32,7 @@ public class JavaFileMerger {
                 for (File file : files) {
                     if (file.isDirectory()) {
                         openJavaFiles(file);
-                    } else if (file.isFile() && file.getName().endsWith(".java")) {
+                    } else if (file.isFile() && file.getName().endsWith(".java")&&!file.getName().contains("module-info.java")) {
                         System.out.println("Opening: " + file.getAbsolutePath());
                         javaFiles.add(file);
                     }

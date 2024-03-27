@@ -53,7 +53,7 @@ public class HelloController implements Initializable {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("Choose a folder");
             directoryChooser.setInitialDirectory(new java.io.File("."));
-            java.io.File selectedDirectory = directoryChooser.showDialog(HelloApplication.BaseStage);
+            java.io.File selectedDirectory = directoryChooser.showDialog(Main.BaseStage);
             if (selectedDirectory != null) {
                 lb_filePath.setText(selectedDirectory.getAbsolutePath());
                 filePath = selectedDirectory.getAbsolutePath();
@@ -76,7 +76,7 @@ public class HelloController implements Initializable {
                 AnchorPane.setLeftAnchor(label, 26.0);
                 AnchorPane.setTopAnchor(label, 12.0);
 
-                String S= Paths.get("src/main/resources/com/example/projectmerger/img/rec.png").toAbsolutePath().normalize().toString();
+                String S= Paths.get("src/main/resources/com/example/projectmerger/rec.png").toAbsolutePath().normalize().toString();
                 ImageView recImageView = new ImageView(new Image(S));
                 recImageView.setFitHeight(31);
                 recImageView.setFitWidth(24);
