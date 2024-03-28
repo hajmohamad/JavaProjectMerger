@@ -50,6 +50,7 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        btn_mergIt.setVisible(false);
         bt_fileChoser.setOnMouseClicked(event -> {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle("Choose a folder");
@@ -99,6 +100,14 @@ public class HelloController implements Initializable {
             }
             ap_mergIi.setVisible(true);
             JavaFileMerger.javaFiles = classes ;
+            tf_newClassName.textProperty().addListener((observable, oldValue, newValue) -> {
+                if(newValue.length()>=1){
+                    btn_mergIt.setVisible(true);
+
+                }else{
+                    btn_mergIt.setVisible(false);
+                }
+            });
             btn_mergIt.setOnMouseClicked(event1 -> {
                 DirectoryChooser directoryChooser = new DirectoryChooser();
                 directoryChooser.setTitle("Choose a destination folder");

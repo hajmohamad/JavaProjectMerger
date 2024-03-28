@@ -47,19 +47,22 @@ public class JavaFileMerger {
     }
 
     private static void writeImports() {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(destinationFilePath+"//"+newClassName+".java", true);
+             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
+
         for (String imp : imports) {
-            try (FileOutputStream fileOutputStream = new FileOutputStream(folderPath+"//"+newClassName+".java", true);
-                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-                 BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
 
                 bufferedWriter.write(imp);
                 bufferedWriter.newLine();
 
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-                System.exit(1);
-            }
         }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
+
     }
 
     private static void writeJavaFiles() {
@@ -75,23 +78,22 @@ public class JavaFileMerger {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
 
-                    String[] words = line.split("\\s");
+
                     // Check if the line does not start with "import", "public", or "package"
-                    if (!Objects.equals(words[0], "import") &&
-                            !(Objects.equals(words[0], "public") && Objects.equals(words[1], "class"))
-                            && !Objects.equals(words[0], "package")) {
+                    if (!line.startsWith("import") && !line.startsWith("public") && !line.startsWith("package") &&
+                             !line.startsWith("class")) {
 
                         // Write the line as it is to the output file
                         bufferedWriter.write(line);
                         bufferedWriter.newLine();
                     }
                     // Check if the line starts with "public"
-                    else if (Objects.equals(words[0], "public")) {
+                    else if (line.startsWith("public") ) {
 
                         // Write the line starting from the first word (excluding "public")
-                        for (int i = 1; i < words.length; i++) {
-                            bufferedWriter.write(words[i] + " ");
-                        }
+
+                            bufferedWriter.write(line.replace("public", ""));
+
                         bufferedWriter.newLine();
                     }
 
@@ -111,13 +113,9 @@ public class JavaFileMerger {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-
                 // Split the line into words
-                String[] words = line.split(" ");
-
-                //check for imports that is not repeating
-                if (Objects.equals(words[0], "import")) {
-                    imports.add(line);
+               if(line.startsWith("import")){
+                   imports.add(line);
                 }
             }
 
@@ -133,6 +131,7 @@ public class JavaFileMerger {
         }
         writeImports();
         writeJavaFiles();
+
 
 
 
