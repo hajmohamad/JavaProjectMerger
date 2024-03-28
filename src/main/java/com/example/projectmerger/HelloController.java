@@ -18,6 +18,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -61,9 +62,12 @@ public class HelloController implements Initializable {
             }
         });
         bt_findJavaClass.setOnMouseClicked(event -> {
+            JavaFileMerger.imports.clear();
+            JavaFileMerger.javaFiles.clear();
             JavaFileMerger.findJavaFiles(filePath);
+            vbox_javaClasses.getChildren().clear();
             vbox_javaClasses.getChildren().removeAll();
-            ArrayList<File> classes = new ArrayList<>(JavaFileMerger.javaFiles);
+            List<File> classes = new ArrayList<>(JavaFileMerger.javaFiles);
             for(File f:classes){
                 AnchorPane root = new AnchorPane();
                 root.setPrefHeight(55);
@@ -96,7 +100,15 @@ public class HelloController implements Initializable {
             ap_mergIi.setVisible(true);
             JavaFileMerger.javaFiles = classes ;
             btn_mergIt.setOnMouseClicked(event1 -> {
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Choose a destination folder");
+                directoryChooser.setInitialDirectory(new java.io.File("."));
+                java.io.File selectedDirectory = directoryChooser.showDialog(Main.BaseStage);
+                if (selectedDirectory != null) {
 
+                    JavaFileMerger.destinationFilePath = selectedDirectory.getAbsolutePath();
+
+                }
                 if(tf_newClassName.getText().length()>1){
                     File f =new File(JavaFileMerger.folderPath+"//"+tf_newClassName.getText()+".java");
                     if(f.exists()){
@@ -116,6 +128,10 @@ public class HelloController implements Initializable {
                                 JavaFileMerger.mergeIt(tf_newClassName.getText());
                                 lbl_complateMerge.setText("all file Merge");
                                 lbl_complateMerge.setVisible(true);
+                                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                                alert1.setTitle("Done ");
+                                alert1.setContentText("All files were successfully merged ");
+                                alert1.show();
 
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -127,6 +143,10 @@ public class HelloController implements Initializable {
                     JavaFileMerger.mergeIt(tf_newClassName.getText());
                         lbl_complateMerge.setText("all file Merge");
                         lbl_complateMerge.setVisible(true);
+                        Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                        alert1.setTitle("Done ");
+                        alert1.setContentText("All files were successfully merged ");
+                        alert1.show();
 
 
                     }}
