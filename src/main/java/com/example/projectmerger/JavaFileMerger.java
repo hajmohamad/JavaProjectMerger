@@ -14,8 +14,9 @@ import java.util.Scanner;
 public class JavaFileMerger {
     static String folderPath;
     static List<String> imports = new ArrayList<>();
-    static ArrayList<File> javaFiles = new ArrayList<>();
+    static List<File> javaFiles = new ArrayList<>();
     static String newClassName = "";
+    static String destinationFilePath;
 
 
     public static void findJavaFiles(String path) {
@@ -67,7 +68,7 @@ public class JavaFileMerger {
             try (FileInputStream fileInputStream = new FileInputStream(file.getPath());
                  InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                  BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                 FileOutputStream fileOutputStream = new FileOutputStream(folderPath+"//"+newClassName+".java", true);
+                 FileOutputStream fileOutputStream = new FileOutputStream(destinationFilePath+"//"+newClassName+".java", true);
                  OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
                  BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
 
