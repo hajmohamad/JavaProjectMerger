@@ -66,7 +66,7 @@ public class HelloController implements Initializable {
             ArrayList<File> classes = new ArrayList<>(JavaFileMerger.javaFiles);
             for(File f:classes){
                 AnchorPane root = new AnchorPane();
-                root.setPrefHeight(68);
+                root.setPrefHeight(55);
                 root.setPrefWidth(650);
                 root.setStyle("-fx-background-color: #c1b7b7; -fx-background-radius: 15px;");
 
@@ -74,14 +74,14 @@ public class HelloController implements Initializable {
                 label.setPrefHeight(42);
                 label.setPrefWidth(397);
                 AnchorPane.setLeftAnchor(label, 26.0);
-                AnchorPane.setTopAnchor(label, 12.0);
+                AnchorPane.setTopAnchor(label, 7.0);
 
-                String S= Paths.get("src/main/resources/com/example/projectmerger/rec.png").toAbsolutePath().normalize().toString();
-                ImageView recImageView = new ImageView(new Image(S));
+            //    String S= Paths.get("src/main/resources/com/example/projectmerger/rec.png").toAbsolutePath().normalize().toString();
+                ImageView recImageView = new ImageView(new Image(Main.class.getResource("rec.png").toExternalForm()));
                 recImageView.setFitHeight(31);
                 recImageView.setFitWidth(24);
                 AnchorPane.setLeftAnchor(recImageView, 650.0);
-                AnchorPane.setTopAnchor(recImageView, 21.0);
+                AnchorPane.setTopAnchor(recImageView, 16.0);
                 recImageView.setPickOnBounds(true);
                 recImageView.setPreserveRatio(true);
                 recImageView.setOnMouseClicked(event1 -> {
